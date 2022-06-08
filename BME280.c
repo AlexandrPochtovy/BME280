@@ -1,5 +1,5 @@
 /*********************************************************************************
-    Copyright (c) 2021 Alexandr Pochtovy
+   Original author: Alexandr Pochtovy<alex.mail.prime@gmail.com>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
    
  	BME280.c
 	Created on: 30.05.2021
-	Author: Alexandr Pochtovy
  ***********************************************************************************/
 
 #include "BME280.h"
