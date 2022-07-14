@@ -17,47 +17,45 @@
 	Created on: 30.05.2021
  ***********************************************************************************/
  
-#ifndef BME280_MASTER_BME280_REGISTERS_H_
-#define BME280_MASTER_BME280_REGISTERS_H_
+#ifndef BME280_BME280_REGISTERS_H_
+#define BME280_BME280_REGISTERS_H_
 
 //=============================================================
-enum BME280_ADDR {
-	BME280_I2C_ADDR1 = 0xEC,	//address 1 chip 0x76
-	BME280_I2C_ADDR2	= 0xED	//address 2 chip 0x77
-};
 //calib & data size
 enum BME280_Len {
-	BME280_T_P_CALIB_DATA_LEN		= 26,
-	BME280_HUM_CALIB_DATA_LEN	= 	16,
-	BME280_DATA_LEN						= 8
+	BME280_T_P_CALIB_DATA_LEN	= 26,
+	BME280_HUM_CALIB_DATA_LEN	= 16,
+	BME280_DATA_LEN				= 8
 };
 //BME280 registers address---------------------------------------------------------------------
 enum BME280_REG {
 	BME280_REG_T_P_CALIB_DATA	= 0x88,	//calibration data 26 bytes
-	BME280_REG_CHIP_ID				 	= 0xD0,	//BME280 ID REGISTER
-	BME280_REG_RESET					 	= 0xE0,	//SOFTWARE RESET WRITE 0xB6 for reset chip
+	BME280_REG_CHIP_ID			= 0xD0,	//BME280 ID REGISTER
+	BME280_REG_RESET			= 0xE0,	//SOFTWARE RESET WRITE 0xB6 for reset chip
 	BME280_REG_HUM_CALIB_DATA	= 0xE1,	//16 bytes
-	BME280_REG_CTRL_HUM				= 0xF2,	//bits for setup osrs hum
-	BME280_REG_STATUS					= 0xF3,	//status register
-	BME280_REG_CTRL_MEAS_PWR	=	0xF4,
-	BME280_REG_CFG							= 0xF5,
-	BME280_REG_DATA						= 0xF7	//8 bytes dat
+	BME280_REG_CTRL_HUM			= 0xF2,	//bits for setup osrs hum
+	BME280_REG_STATUS			= 0xF3,	//status register
+	BME280_REG_CTRL_MEAS_PWR	= 0xF4,
+	BME280_REG_CFG				= 0xF5,
+	BME280_REG_DATA				= 0xF7,	//8 bytes dat
+	BME280_CHIP_ID 				= 0x60,	//BME280 I2C ID
+	BME280_RESET_COMMAND 		= 0xB6	//BME280 software reset
 };
 //-------------------------------------------------------------------------------------
 //	MASK for select mode sensor	concat to OR in byte
 //Register 0xF2 “ctrl_hum” Sensor oversampling HUMIDITY
 enum BME280_HUM_OVERSAMPLING {
-	BME280_HUM_OVERSAMPLING_OFF	= 	0x00,	//xxxx x000
-	BME280_HUM_OVERSAMPLING_1X		= 0x01,	//xxxx x001
-	BME280_HUM_OVERSAMPLING_2X		= 0x02,	//xxxx x010
-	BME280_HUM_OVERSAMPLING_4X		= 0x03,	//xxxx x011
-	BME280_HUM_OVERSAMPLING_8X		= 0x04,	//xxxx x100
-	BME280_HUM_OVERSAMPLING_16X	=	0x05		//xxxx x101
+	BME280_HUM_OVERSAMPLING_OFF	= 0x00,	//xxxx x000
+	BME280_HUM_OVERSAMPLING_1X	= 0x01,	//xxxx x001
+	BME280_HUM_OVERSAMPLING_2X	= 0x02,	//xxxx x010
+	BME280_HUM_OVERSAMPLING_4X	= 0x03,	//xxxx x011
+	BME280_HUM_OVERSAMPLING_8X	= 0x04,	//xxxx x100
+	BME280_HUM_OVERSAMPLING_16X	= 0x05		//xxxx x101
 };
 //-------------------------------------------------------------------------------------
 //Register 0xF3 'status' mask
 enum BME280_STATUS {
-	BME280_STATUS_IM_UPDATE	= 0x01,	//xxxx xxx1
+	BME280_STATUS_IM_UPDATE		= 0x01,	//xxxx xxx1
 	BME280_STATUS_IS_MEASURE	= 0x08		//xxxx 1xxx
 };
 //-------------------------------------------------------------------------------------

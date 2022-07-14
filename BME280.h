@@ -17,17 +17,20 @@
 	Created on: 30.05.2021
  ***********************************************************************************/
 
-#ifndef BME280_MASTER_BME280_H_
-#define BME280_MASTER_BME280_H_
+#ifndef BME280_BME280_H_
+#define BME280_BME280_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "main.h"
-#include "I2C_Master/MyI2C.h"
+#include "I2C/MyI2C.h"
 #include "BME280_Registers.h"
 //===========================================================================================
-//#define BME280_CONCAT_BYTES(msb, lsb)	(((uint16_t)msb << 8) | (uint16_t)lsb)
+enum BME280_ADDRESS {
+	BME280_ADDR1 = 0xEC,	//address 1 chip 0x76
+	BME280_ADDR2 = 0xED		//address 2 chip 0x77
+};
 /*!
  * @brief Calibration data
  */
@@ -79,50 +82,35 @@ typedef struct bme280_data_float_t {
 		float humidity;			// Compensated humidity
 } bme280_data_float;
 
-/* состояние процесса обмена данными с устройством как с отдельным элементом сети
- * 	применяется для отображения состояния процесса работы с устройством для главного кода
- */
-typedef enum BME_status_t {//состояние устройства
-	BME_Init,		//устройство не настроено
-	BME_OK,		//устройство готово к опросу
-	BME_Faulth	//устройство неисправно
-} BME_status;
-
-/*	состояние обмена данными с устройством, использовать для завершения функции работы с устройством */
-typedef enum BME_Connect_Status_t {
-	BME_Processing, //выполняется работа с устройством: обмен данными, обработка результатов
-	BME_Complite	//работа с устройством завершена, данные считаны/записаны корректно
-} BME_Connect_Status;
-
 //common data struct for sensor
 typedef struct bme280_dev_t {
-		uint8_t addr;
+		const uint8_t addr;
 		uint8_t step;
-		BME_status status;
+		Device_status_t status;
 		bme280_calib_data calib_data;
 		bme280_uncomp_data uncomp_data;
 		bme280_data_int data_int;
 		bme280_data_float data_float;
-} bme280_dev;
+} BME280_t;
 
 //INITIALIZATION	================================================================
-BME_Connect_Status BME280_Init(I2C_Connection *_i2c, bme280_dev *dev, uint8_t *pbuffer);
-BME_Connect_Status BME280_GetData(I2C_Connection *_i2c, bme280_dev *dev, uint8_t *pbuffer);
+uint8_t BME280_Init(I2C_Connection *_i2c, BME280_t *dev);
+uint8_t BME280_GetData(I2C_Connection *_i2c, BME280_t *dev);
 //CALCULATING	==========================================================================
-void parse_temp_press_calib_data(I2C_Connection *_i2c, bme280_dev *dev);
-void parse_humidity_calib_data(I2C_Connection *_i2c, bme280_dev *dev);
-void bme280_parse_sensor_data(I2C_Connection *_i2c, bme280_dev *dev);
-int32_t compensate_temperature_int(bme280_dev *dev);
-float compensate_temperature_float(bme280_dev *dev);
-uint32_t compensate_pressure_int(bme280_dev *dev);
-float compensate_pressure_float(bme280_dev *dev);
-uint32_t compensate_humidity_int(bme280_dev *dev);
-float compensate_humidity_float(bme280_dev *dev);
+void parse_temp_press_calib_data(I2C_Connection *_i2c, BME280_t *dev);
+void parse_humidity_calib_data(I2C_Connection *_i2c, BME280_t *dev);
+void bme280_parse_sensor_data(I2C_Connection *_i2c, BME280_t *dev);
+int32_t compensate_temperature_int(BME280_t *dev);
+float compensate_temperature_float(BME280_t *dev);
+uint32_t compensate_pressure_int(BME280_t *dev);
+float compensate_pressure_float(BME280_t *dev);
+uint32_t compensate_humidity_int(BME280_t *dev);
+float compensate_humidity_float(BME280_t *dev);
 
-void bme280_calculate_data_int(bme280_dev *dev);
-void bme280_calculate_data_float(bme280_dev *dev);
+void bme280_calculate_data_int(BME280_t *dev);
+void bme280_calculate_data_float(BME280_t *dev);
 
 #ifdef __cplusplus
 }
 #endif
-#endif /* BME280_MASTER_BME_H_ */
+#endif /* BME280_BME_H_ */
